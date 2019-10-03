@@ -4,7 +4,16 @@ const db = require('./db');
 const { School, Student } = db.models;
 const path = require('path')
 
-app.get('/api/schools', async (req, res, next ) =>{
+app.get('/', async (req, res, next)=>{
+  try{
+    res.sendFile( await path.join(__dirname, './index.html'));
+  }
+  catch(ex){
+    next(ex);
+  }
+});
+
+app.get('/api/schools', async(req, res, next ) =>{
   School.findAll()
     .then( school => res.send(school))
     .catch(next)
