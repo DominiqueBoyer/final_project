@@ -1,5 +1,6 @@
 <html>
   <head>
+
     <script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
     <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
     <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
@@ -7,7 +8,12 @@
     <script src='https://cdnjs.cloudflare.com/ajax/libs/react-router-dom/5.0.1/react-router-dom.js'></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/redux/4.0.4/redux.js'></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/react-redux/7.1.1/react-redux.js'></script>
-
+    <style>
+      #form {
+        display: flex;
+        flex-wrap: wrap;
+      }
+    </style>
 
   </head>
   <body>
@@ -68,6 +74,32 @@
         });
       })(_Nav)
 
+      class Form extends React.Component{
+        constructor(){
+          super();
+          this.state = {
+            firstName: '',
+            lastName: '',
+            email: '',
+            gpa:'',
+            error:''
+          };
+        }
+        render(){
+          const { firstName, lastName, email, gpa, error } = this.state;
+          return (
+            <div class='form'>
+              First Name <input value={firstName} onChange={(ev) => this.setState({ firstName: ev.target.value})}/>
+              Last Name <input value={lastName} onChange={(ev) => this.setState({ lastName: ev.target.value})}/>
+              Email <input type="email" value={email} onChange={(ev) => this.setState({ email: ev.target.value})}/>
+              GPA <input value={gpa} onChange={(ev) => this.setState({ gpa: ev.target.value})}/>
+              Enroll at
+              <button>Save</button>
+            </div>
+          );
+        }
+      }
+
       const Home = ()=> {
         return (
           <div>
@@ -95,11 +127,13 @@
 
       const _Students = ({ students })=>{
         return (
-          <ul>
-            {
-              students.map( student => <li key={student.id}> { student.firstName} {student.lastName} </li>)
-            }
-          </ul>
+          <div id='students'>
+            <div>
+              {
+                students.map( student => <li key={student.id}> { student.firstName} {student.lastName} </li>)
+              }
+            </div>
+          </div>
         );
       };
       const Students = connect((state)=>{
@@ -118,6 +152,7 @@
             <Provider store={ store }>
               <HashRouter>
                 <Route component={ Nav } />
+                <Route component={ Form } />
                 <Route exact path='/' component={Home} />
                 <Route path='/schools' component={School} />
                 <Route path='/students' component={Students} />
