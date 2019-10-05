@@ -14,35 +14,60 @@
     <div id='root'></div>
     <script type='text/babel'>
       const { HashRouter, Link, NavLink, Route, Switch } = ReactRouterDOM;
-
       const { createStore, combineReducers } = Redux;
       const { Provider, connect } = ReactRedux;
 
-      const reducers = combineReducers({
+
+      const reducer = combineReducers({
         students: (state =[], action ) => {
           if(action.type === 'GET_STUDENTS'){
-            state = action.events
+            state = action.students
           }
           return state;
         },
-        students: (state =[], action ) => {
+        schools: (state =[], action ) => {
+          if(action.type === 'GET_SCHOOLS'){
+            state = action.schools
+          }
           return state;
         }
       });
 
       const store = createStore(reducer);
 
-      const Nav = ()=>{
+      const getStudents = async()=> {
+        store.dispatch({
+          type: 'GET_STUDENTS',
+          students: (await axios.get('/api/students')).data
+        })
+      };
+      const getSchools = async()=> {
+        store.dispatch({
+          type: 'GET_SCHOOLS',
+          schools: (await axios.get('/api/schools')).data
+        })
+      };
+
+      const _Nav = ({ students, schools })=>{
+
         return (
           <nav>
             <h1> Acme Schools</h1>
-            <NavLink to='/schools'>Schools()</NavLink>
-            <NavLink to='/students'>Students()</NavLink>
+            <NavLink to='/schools'>Schools({schools.length})</NavLink>
+            <NavLink to='/students'>Students({students.length})</NavLink>
             <NavLink to='/schools/:id'>Most Popular ???()</NavLink>
             <NavLink to='/schools/:id'>Top School ???()</NavLink>
           </nav>
         );
       };
+
+      const Nav = connect((state)=>{
+        console.log(state)
+        return ({
+          students: state.students,
+          schools: state.schools
+        });
+      })(_Nav)
 
       const Home = ()=> {
         return (
@@ -67,14 +92,15 @@
       };
 
       class App extends React.Component{
-        constructor(){
-          super();
+        componentDidMount(){
+          getStudents();
+          getSchools();
         }
         render(){
           return (
             <Provider store={ store }>
               <HashRouter>
-                <Route render={ ()=> <Nav/>} />
+                <Route component={ Nav } />
                 <Route exact path='/' component={Home} />
                 <Route path='/schools' component={School} />
                 <Route path='/students' component={Students} />
