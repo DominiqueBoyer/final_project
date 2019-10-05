@@ -62,7 +62,6 @@
       };
 
       const Nav = connect((state)=>{
-        console.log(state)
         return ({
           students: state.students,
           schools: state.schools
@@ -79,17 +78,35 @@
         );
       };
 
-      const School = ()=>{
+      const _School = ({ schools })=>{
         return (
-          <hr />
+          <ul>
+            {
+              schools.map( school => <li key={school.id}> { school.name } </li>)
+            }
+          </ul>
         );
       };
+      const School = connect((state)=>{
+        return ({
+          schools: state.schools
+        });
+      })(_School)
 
-      const Students = ()=>{
+      const _Students = ({ students })=>{
         return (
-          <hr />
+          <ul>
+            {
+              students.map( student => <li key={student.id}> { student.firstName} {student.lastName} </li>)
+            }
+          </ul>
         );
       };
+      const Students = connect((state)=>{
+        return ({
+          students: state.students
+        });
+      })(_Students)
 
       class App extends React.Component{
         componentDidMount(){
