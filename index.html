@@ -9,10 +9,39 @@
     <script src='https://cdnjs.cloudflare.com/ajax/libs/redux/4.0.4/redux.js'></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/react-redux/7.1.1/react-redux.js'></script>
     <style>
-      #form {
+
+      nav {
+        display: flex;
+        justify-content: space-around;
+        border: blue solid 2px;
+      }
+
+      .form {
+        display: flex;
+        flex-wrap: wrap;
+        border: pink solid 1px;
+        flex-direction: column;
+        width: 50%;
+      }
+
+
+
+      .students {
         display: flex;
         flex-wrap: wrap;
       }
+
+      .students > li {
+        border: solid 1px black;
+        border-radius: 1rem;
+        width: calc((100% / 3));
+        margin: 1rem;
+        padding: 1rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
     </style>
 
   </head>
@@ -88,7 +117,7 @@
         render(){
           const { firstName, lastName, email, gpa, error } = this.state;
           return (
-            <div class='form'>
+            <div className='form'>
               First Name <input value={firstName} onChange={(ev) => this.setState({ firstName: ev.target.value})}/>
               Last Name <input value={lastName} onChange={(ev) => this.setState({ lastName: ev.target.value})}/>
               Email <input type="email" value={email} onChange={(ev) => this.setState({ email: ev.target.value})}/>
@@ -126,13 +155,27 @@
       })(_School)
 
       const _Students = ({ students })=>{
+        console.log(students)
         return (
-          <div id='students'>
-            <div>
-              {
-                students.map( student => <li key={student.id}> { student.firstName} {student.lastName} </li>)
-              }
-            </div>
+          <div className='students'>
+            {
+              students.map( student =>
+                <li key={student.id}>
+                  <div> {student.firstName} {student.lastName} </div>
+                  <div> GPA {student.GPA} </div>
+                  <select>
+                    <option>Not Enrolled</option>
+                    <option>Brown</option>
+                    <option>MIT</option>
+                    <option>Cal Poly SLO</option>
+                    <option>Harvard</option>
+                    <option>CCNY</option>
+                  </select>
+                  <br/>
+                  <button>Delete Student</button>
+                </li>
+              )
+            }
           </div>
         );
       };

@@ -29,26 +29,8 @@ app.get('/api/students', async (req, res, next ) =>{
 });
 
 db.syncAndSeed()
-  .then(async ()=> {
-    const schools = [
-      { name: 'MIT', imageURL: '' },
-      { name: 'Harvard', imageURL: '' },
-      { name: 'UCLA', imageURL: '' },
-      { name: 'CCNY', imageURL: '' },
-      { name: 'Brown', imageURL: '' },
-      { name: 'Apex Tech', imageURL: '' },
-      { name: 'CAL POLY SLO', imageURL: '' }
-    ];
-    const [ mit, harvard, ucla, ccny, brown, apexTech, cpSLO ] = await mapOverSchool(schools);
+  .then(()=> {
 
-    const students = [
-      { firstName: 'Larry', lastName:'Smith', email:'larry@gmail.com', GPA: 3.0, schoolId: ucla.id },
-      { firstName: 'Grace', lastName:'Jones', email:'grace@gmail.com', GPA: 2.6, schoolId: harvard.id },
-      { firstName: 'Tommy', lastName:'Lee', email:'tom@gmail.com', GPA: 3.2, schoolId: null },
-      { firstName: 'Dominique', lastName:'Boyer', email:'dominique@gmail.com', GPA: 4.0, schoolId: cpSLO.id },
-      { firstName: 'Zoe', lastName:'the Cat', email:'cat@gmail.com', GPA: 2.0, schoolId: null}
-    ];
-    const [larry, grace, tommy, dominique, zoe ] = await mapOverStudent(students);
     app.listen(3000, ()=> console.log('LISTENING ON 3000'));
   })
 
