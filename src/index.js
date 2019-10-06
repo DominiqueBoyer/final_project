@@ -1,14 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { createStore, combineReducers } from 'redux';
+import { createStore, combineReducers, applyMiddleware } from 'redux';
 import { Provider, connect } from 'react-redux';
 import { HashRouter, Link, NavLink, Route, Switch } from 'react-router-dom';
+import thunkMiddleware from 'redux-thunk';
 
 import Nav from './Nav';
 import School from './School';
 import Students from './Students';
 import Home from './Home';
-import Stuff from './CreateStudent';
+import CreateStudent from './CreateStudent';
 
 
 
@@ -48,9 +49,9 @@ const getStudents = async()=> {
     students: (await axios.get('/api/students')).data
   })
 };
-const createStudent = (student)=> {
+export const createStudent = (student)=> {
   return async (dispatch) => {
-    const created = (await axios.post('/api/students', student)).data;
+    const student = (await axios.post('/api/students', student)).data;
     return dispatch({ type: 'CREATE_STUDENT', student })
   }
 };
@@ -60,38 +61,27 @@ const deleteStudent = (student) => {
   }
 }
 
-
-const store = createStore(reducer);
-
-
-
-
-
-
-
-
-
-
-
+const store = createStore(reducer, applyMiddleware(thunkMiddleware));
 
 class App extends React.Component{
-  componentDidMount(){
-    getStudents();
-    getSchools();
+  constructor(){
+    super();
+  }
+  async componentDidMount(){
+    await getStudents();
+    await getSchools();
   }
   render(){
     return (
-      <Provider store={ store }>
-        <HashRouter>
-          <Route component={ Nav } />
-          <Route component={ Stuff } />
-          <Route exact path='/' component={Home} />
-          <Route path='/schools' component={School} />
-          <Route path='/students' component={Students} />
-        </HashRouter>
-      </Provider>
+      <HashRouter>
+        <Route component={ Nav } />
+        <Route component={ CreateStudent } />
+        <Route exact path='/' component={Home} />
+        <Route path='/schools' component={School} />
+        <Route path='/students' component={Students} />
+      </HashRouter>
     );
   }
 } //app end bracket
 
-ReactDOM.render(<App />, document.querySelector('#root'));
+ReactDOM.render(<Provider store={store}><App /></Provider>, document.querySelector('#root'));

@@ -15,9 +15,9 @@ class _CreateStudent extends React.Component{
     };
     this.add = this.add.bind(this);
   }
-  add(){
+  async add(){
     console.log('state', this.state)
-    this.props.createIt(this.state);
+    await this.props.createIt(this.state);
   }
   render(){
     const { firstName, lastName, email, gpa, school, error } = this.state;
@@ -33,10 +33,10 @@ class _CreateStudent extends React.Component{
     );
   }
 }
-const Stuff = connect(null, (dispatch)=> {
+const CreateStudent = connect(null, (dispatch)=> {
   return {
     createIt: async (student)=> dispatch(createStudent(student))
   };
 })(_CreateStudent);
 
-export default Stuff;
+export default CreateStudent;
