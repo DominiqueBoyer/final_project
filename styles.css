@@ -1,13 +1,45 @@
+nav {
+  display: flex;
+  justify-content: space-around;
+  border: blue solid 2px;
+}
+
+.form {
+  display: flex;
+  flex-wrap: wrap;
+  border: pink solid 1px;
+  flex-direction: column;
+  width: 50%;
+}
+
+.schools {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.schools > li {
+  border: solid 1px black;
+  border-radius: 1rem;
+  width: calc((100% / 3));
+  margin: 1rem;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .students {
   display: flex;
   flex-wrap: wrap;
-  border: black solid 1px;
 }
 
-h1 {
-  color: blue;
-}
-.students  {
-   color: blue;
-   border: blac solid 1px;
+.students > li {
+  border: solid 1px black;
+  border-radius: 1rem;
+  width: calc((100% / 3));
+  margin: 1rem;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
