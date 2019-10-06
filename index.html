@@ -9,6 +9,7 @@
     <script src='https://cdnjs.cloudflare.com/ajax/libs/react-router-dom/5.0.1/react-router-dom.js'></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/redux/4.0.4/redux.js'></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/react-redux/7.1.1/react-redux.js'></script>
+    <script src='dist/main.js' defer ></script>
 
 
     <style>
@@ -131,18 +132,19 @@
             lastName: '',
             email: '',
             gpa:'',
+            school: '',
             error:''
           };
         }
         render(){
-          const { firstName, lastName, email, gpa, error } = this.state;
+          const { firstName, lastName, email, gpa, school, error } = this.state;
           return (
             <div className='form'>
               First Name <input value={firstName} onChange={(ev) => this.setState({ firstName: ev.target.value})}/>
               Last Name <input value={lastName} onChange={(ev) => this.setState({ lastName: ev.target.value})}/>
               Email <input type="email" value={email} onChange={(ev) => this.setState({ email: ev.target.value})}/>
               GPA <input value={gpa} onChange={(ev) => this.setState({ gpa: ev.target.value})}/>
-              Enroll at
+              Enroll at <input value={school} placeholder='Add School'onChange={(ev) => this.setState({school: ev.target.value})} />
               <button>Save</button>
             </div>
           );
@@ -169,7 +171,7 @@
                 <select>
                   <option>Add Student</option>
                   {
-                    students.map(student => <option>{student.firstName}</option>)
+                    students.map(student => <option key={student.id}>{student.firstName}</option>)
                   }
                 </select>
                 </li>

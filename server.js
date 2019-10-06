@@ -5,8 +5,10 @@ const { mapOverSchool, mapOverStudent} = db;
 const { School, Student } = db.models;
 const path = require('path');
 
+app.use('/dist', express.static(path.join(__dirname, 'dist')));
 
 app.use(express.json());
+
 app.get('/', async (req, res, next)=>{
   try{
     res.sendFile( await path.join(__dirname, './index.html'));
