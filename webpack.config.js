@@ -2,9 +2,9 @@ module.exports = {
   module: {
     rules: [
      {
-      test: /\.js/,
+      test:/\.js/,
       loader: 'babel-loader',
-      exclude: 'node_modules/'
+      exclude: '/node_modules'
       }
 
     ]

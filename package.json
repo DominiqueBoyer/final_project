@@ -6,9 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon server.js",
-    "webpack": "webpack",
-    "webpack: dev": "webpack --mode=development --watch",
-    "start:dev": "npm run webpack & nodemon server.js --ignore dist/"
+    "webpack": "webpack --watch --mode=development",
+    "start:dev": "npm run webpack & nodemon server.js --ignore dist/ --ignore src/"
   },
   "babel": {
     "presets": [

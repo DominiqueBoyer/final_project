@@ -1,75 +1,4 @@
-<html>
-  <head>
-    <!-- <meta charset='UTF-8'/>
-    <link rel="stylesheet" type="text/html" href="./styles.css"/> -->
-    <script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
-    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
-    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.js'></script>
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/react-router-dom/5.0.1/react-router-dom.js'></script>
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/redux/4.0.4/redux.js'></script>
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/react-redux/7.1.1/react-redux.js'></script>
-    <script src='dist/main.js' defer ></script>
-
-
-    <style>
-      nav {
-        display: flex;
-        justify-content: space-around;
-        border: blue solid 2px;
-      }
-
-      .form {
-        display: flex;
-        flex-wrap: wrap;
-        border: pink solid 1px;
-        flex-direction: column;
-        width: 50%;
-        margin: 10px 25%  10px 25%;
-        padding: 20px;
-      }
-
-
-      .schools {
-        display: flex;
-        flex-wrap: wrap;
-      }
-
-      .schools > li {
-        border: solid 1px black;
-        border-radius: 1rem;
-        width: calc((100% / 3));
-        margin: 1rem;
-        padding: 1rem;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-      }
-
-      .students {
-        display: flex;
-        flex-wrap: wrap;
-      }
-
-      .students > li {
-        border: solid 1px black;
-        border-radius: 1rem;
-        width: calc((100% / 3));
-        margin: 1rem;
-        padding: 1rem;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-      }
-
-    </style>
-
-  </head>
-  <body>
-    <div id='root'></div>
-    <script type='text/babel'>
-      // import styles from './styles.css';
-      const { HashRouter, Link, NavLink, Route, Switch } = ReactRouterDOM;
+const { HashRouter, Link, NavLink, Route, Switch } = ReactRouterDOM;
       const { createStore, combineReducers } = Redux;
       const { Provider, connect } = ReactRedux;
 
@@ -238,6 +167,3 @@
       } //app end bracket
 
       ReactDOM.render(<App />, document.querySelector('#root'));
-    </script>
-  </body>
-</html>
