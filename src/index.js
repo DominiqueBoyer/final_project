@@ -8,7 +8,7 @@ import Nav from './Nav';
 import School from './School';
 import Students from './Students';
 import Home from './Home';
-import CreateStudent from './Students'
+import Stuff from './CreateStudent';
 
 
 
@@ -51,7 +51,7 @@ const getStudents = async()=> {
 const createStudent = (student)=> {
   return async (dispatch) => {
     const created = (await axios.post('/api/students', student)).data;
-    return dispatch({ type: 'CREATE_STUDENT', student }(created))
+    return dispatch({ type: 'CREATE_STUDENT', student })
   }
 };
 const deleteStudent = (student) => {
@@ -84,7 +84,7 @@ class App extends React.Component{
       <Provider store={ store }>
         <HashRouter>
           <Route component={ Nav } />
-          <Route component={ CreateStudent } />
+          <Route component={ Stuff } />
           <Route exact path='/' component={Home} />
           <Route path='/schools' component={School} />
           <Route path='/students' component={Students} />

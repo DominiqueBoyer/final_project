@@ -33,4 +33,4 @@ const store = createStore(reducer);
 
 
 export default store;
-export { getStudents, getSchools };
+export { getStudents, getSchools, createStudent };

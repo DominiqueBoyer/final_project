@@ -1,5 +1,6 @@
 import React from 'react';
 import { Provider, connect } from 'react-redux';
+import {createStudent} from './index.js';
 
 class _CreateStudent extends React.Component{
   constructor(){
@@ -12,10 +13,11 @@ class _CreateStudent extends React.Component{
       // school: '',
       error:''
     };
-    this.create = this.create.bind(this);
+    this.add = this.add.bind(this);
   }
-  async create(){
-    await this.props.create(this.state);
+  add(){
+    console.log('state', this.state)
+    this.props.createIt(this.state);
   }
   render(){
     const { firstName, lastName, email, gpa, school, error } = this.state;
@@ -26,15 +28,15 @@ class _CreateStudent extends React.Component{
         Email <input type="email" value={email} onChange={(ev) => this.setState({ email: ev.target.value})}/>
         GPA <input value={gpa} onChange={(ev) => this.setState({ gpa: ev.target.value})}/>
         {/* Enroll at <input value={school} placeholder='Add School'onChange={(ev) => this.setState({school: ev.target.value})} /> */}
-        <button onClick={ this.create }>Save</button>
+        <button onClick={ this.add }>Save</button>
       </form>
     );
   }
 }
-const CreateStudent = connect(null, (dispatch)=> {
+const Stuff = connect(null, (dispatch)=> {
   return {
-    create: async (student)=> dispatch(createStudent(student))
+    createIt: async (student)=> dispatch(createStudent(student))
   };
 })(_CreateStudent);
 
-export default CreateStudent;
+export default Stuff;
