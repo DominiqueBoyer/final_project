@@ -6,6 +6,8 @@ const { School, Student } = db.models;
 const path = require('path');
 
 app.use('/dist', express.static(path.join(__dirname, 'dist')));
+app.use('/src', express.static(path.join(__dirname, 'src')));
+
 
 app.use(express.json());
 

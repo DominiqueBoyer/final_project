@@ -1,169 +1,97 @@
-const { HashRouter, Link, NavLink, Route, Switch } = ReactRouterDOM;
-      const { createStore, combineReducers } = Redux;
-      const { Provider, connect } = ReactRedux;
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { createStore, combineReducers } from 'redux';
+import { Provider, connect } from 'react-redux';
+import { HashRouter, Link, NavLink, Route, Switch } from 'react-router-dom';
+
+import Nav from './Nav';
+import School from './School';
+import Students from './Students';
+import Home from './Home';
+import CreateStudent from './Students'
 
 
-      const reducer = combineReducers({
-        students: (state =[], action ) => {
-          if(action.type === 'GET_STUDENTS'){
-            state = action.students
-          }
-          return state;
-        },
-        schools: (state =[], action ) => {
-          if(action.type === 'GET_SCHOOLS'){
-            state = action.schools
-          }
-          return state;
-        }
-      });
 
-      const store = createStore(reducer);
 
-      const getStudents = async()=> {
-        store.dispatch({
-          type: 'GET_STUDENTS',
-          students: (await axios.get('/api/students')).data
-        })
-      };
-      const getSchools = async()=> {
-        store.dispatch({
-          type: 'GET_SCHOOLS',
-          schools: (await axios.get('/api/schools')).data
-        })
-      };
 
-      const _Nav = ({ students, schools })=>{
+const reducer = combineReducers({
+  students: (state =[], action ) => {
+    if(action.type === 'GET_STUDENTS'){
+      state = action.students
+    }
+    if(action.type === 'CREATE_STUDENT'){
+      state = [...state, action.student]
+    }
+    if(action.type === 'DELETE_STUDENT'){
+      state = state.filter(student => student.id !== action.student.id)
+    }
+    return state;
+  },
+  schools: (state =[], action ) => {
+    if(action.type === 'GET_SCHOOLS'){
+      state = action.schools
+    }
+    return state;
+  }
+});
 
-        return (
-          <nav>
-            <h1> Acme Schools</h1>
-            <NavLink to='/schools'>Schools({schools.length})</NavLink>
-            <NavLink to='/students'>Students({students.length})</NavLink>
-            <NavLink to='/schools/:id'>Most Popular ???()</NavLink>
-            <NavLink to='/schools/:id'>Top School ???()</NavLink>
-          </nav>
-        );
-      };
+const getSchools = async()=> {
+  store.dispatch({
+    type: 'GET_SCHOOLS',
+    schools: (await axios.get('/api/schools')).data
+  })
+};
 
-      const Nav = connect((state)=>{
-        return ({
-          students: state.students,
-          schools: state.schools
-        });
-      })(_Nav)
+const getStudents = async()=> {
+  store.dispatch({
+    type: 'GET_STUDENTS',
+    students: (await axios.get('/api/students')).data
+  })
+};
+const createStudent = (student)=> {
+  return async (dispatch) => {
+    const created = (await axios.post('/api/students', student)).data;
+    return dispatch({ type: 'CREATE_STUDENT', student }(created))
+  }
+};
+const deleteStudent = (student) => {
+  return async (dispatch) => {
+    await axios.delete('/api/students/')
+  }
+}
 
-      class Form extends React.Component{
-        constructor(){
-          super();
-          this.state = {
-            firstName: '',
-            lastName: '',
-            email: '',
-            gpa:'',
-            school: '',
-            error:''
-          };
-        }
-        render(){
-          const { firstName, lastName, email, gpa, school, error } = this.state;
-          return (
-            <div className='form'>
-              First Name <input value={firstName} onChange={(ev) => this.setState({ firstName: ev.target.value})}/>
-              Last Name <input value={lastName} onChange={(ev) => this.setState({ lastName: ev.target.value})}/>
-              Email <input type="email" value={email} onChange={(ev) => this.setState({ email: ev.target.value})}/>
-              GPA <input value={gpa} onChange={(ev) => this.setState({ gpa: ev.target.value})}/>
-              Enroll at <input value={school} placeholder='Add School'onChange={(ev) => this.setState({school: ev.target.value})} />
-              <button>Save</button>
-            </div>
-          );
-        }
-      }
 
-      const Home = ()=> {
-        return (
-          <div>
-            <h1>Home</h1>
-            <p>Our most popular school is ... with ??? students.</p>
-            <p>Our top performing school is ... with an average GPA of ???</p>
-          </div>
-        );
-      };
+const store = createStore(reducer);
 
-      const _School = ({ schools, students })=>{
-        return (
-          <div className='schools'>
-            {
-              schools.map( school => <li key={school.id}>
-                <div>{ school.name } </div>
-                <div>School count</div>
-                <select>
-                  <option>Add Student</option>
-                  {
-                    students.map(student => <option key={student.id}>{student.firstName}</option>)
-                  }
-                </select>
-                </li>
-              )
-            }
-          </div>
-        );
-      };
-      const School = connect((state)=>{
-        return ({
-          schools: state.schools,
-          students: state.students
-        });
-      })(_School)
 
-      const _Students = ({ students })=>{
-        return (
-          <div className='students'>
-            {
-              students.map( student =>
-                <li key={student.id}>
-                  <div> {student.firstName} {student.lastName} </div>
-                  <div> GPA {student.GPA} </div>
-                  <select>
-                    <option>Not Enrolled</option>
-                    <option>Brown</option>
-                    <option>MIT</option>
-                    <option>Cal Poly SLO</option>
-                    <option>Harvard</option>
-                    <option>CCNY</option>
-                  </select>
-                  <br/>
-                  <button>Delete Student</button>
-                </li>
-              )
-            }
-          </div>
-        );
-      };
-      const Students = connect((state)=>{
-        return ({
-          students: state.students
-        });
-      })(_Students)
 
-      class App extends React.Component{
-        componentDidMount(){
-          getStudents();
-          getSchools();
-        }
-        render(){
-          return (
-            <Provider store={ store }>
-              <HashRouter>
-                <Route component={ Nav } />
-                <Route component={ Form } />
-                <Route exact path='/' component={Home} />
-                <Route path='/schools' component={School} />
-                <Route path='/students' component={Students} />
-              </HashRouter>
-            </Provider>
-          );
-        }
-      } //app end bracket
 
-      ReactDOM.render(<App />, document.querySelector('#root'));
+
+
+
+
+
+
+
+
+class App extends React.Component{
+  componentDidMount(){
+    getStudents();
+    getSchools();
+  }
+  render(){
+    return (
+      <Provider store={ store }>
+        <HashRouter>
+          <Route component={ Nav } />
+          <Route component={ CreateStudent } />
+          <Route exact path='/' component={Home} />
+          <Route path='/schools' component={School} />
+          <Route path='/students' component={Students} />
+        </HashRouter>
+      </Provider>
+    );
+  }
+} //app end bracket
+
+ReactDOM.render(<App />, document.querySelector('#root'));
