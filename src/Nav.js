@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { Provider, connect } from 'react-redux';
+import { connect } from 'react-redux';
 
 
 const _Nav = ({ students, schools })=>{
@@ -10,8 +10,8 @@ const _Nav = ({ students, schools })=>{
       <h1> Acme Schools</h1>
       <NavLink to='/schools'>Schools({schools.length})</NavLink>
       <NavLink to='/students'>Students({students.length})</NavLink>
-      <NavLink to='/schools/:id'>Most Popular ???()</NavLink>
-      <NavLink to='/schools/:id'>Top School ???()</NavLink>
+      <NavLink to='/schools/:id'>Most Popular ()</NavLink>
+      <NavLink to='/schools/:id'>Top School ()</NavLink>
     </nav>
   );
 };

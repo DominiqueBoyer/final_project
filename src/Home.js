@@ -1,6 +1,7 @@
 import React from 'react';
 import { Provider, connect } from 'react-redux';
 
+// might need to be a class
 
 const _Home = ()=> {
   return (

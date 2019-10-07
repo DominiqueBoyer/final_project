@@ -20,6 +20,16 @@ app.get('/', async (req, res, next)=>{
   }
 });
 
+app.post('/api/students', async (req, res, next) =>{
+  const student = await Student.create(req.body)
+  res.send( student )
+});
+
+app.delete('/api/students/:id', async (req, res, next)=>{
+  await Student.destroy({where: {id: req.params.id}})
+  res.sendStatus(204)
+});
+
 app.get('/api/schools', async(req, res, next ) =>{
   School.findAll()
     .then( school => res.send(school))
