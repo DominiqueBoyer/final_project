@@ -3,7 +3,11 @@ import { Provider, connect } from 'react-redux';
 
 // might need to be a class
 
-const _Home = ()=> {
+const _Home = ({ schools, students})=> {
+  const _schools = schools.map(school => {
+    const studentsAttending = students.filter(student => student.schoolId === school.id)
+    return {...school, studentsAttending}
+  })
   return (
     <div>
       <h1>Home page</h1>

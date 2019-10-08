@@ -1,15 +1,19 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { getSchoolsThunk, getStudentsThunk } from './store';
+import { getSchoolsThunk, getStudentsThunk, updateStudentThunk } from './store';
 import { Link } from 'react-router-dom';
 
 class _School extends React.Component{
   constructor(){
     super();
+    this.updateStudent = this.updateStudent.bind(this);
   }
   async componentDidMount(){
     await this.props.getSchools()
     await this.props.getStudents()
+  }
+  async updateStudent(id, schoolId){
+    await this.props.updateStudent(id, schoolId)
   }
   render(){
     const { schools, students } = this.props;
@@ -24,12 +28,12 @@ class _School extends React.Component{
           _schools.map( school => <li key={school.id}>
             <Link to='/schools/:id'>{ school.name } </Link>
             <div>School count {school.studentsAttending.length}</div>
-            <select>
+            <select onChange={()=> this.updateStudent(student.id, school.id)}>
               <option>Add Student</option>
               {
-                students.map(student => <option key={student.id}>{student.firstName}</option>)
+                students.map(student => student.schoolId === null ? <option key={student.id}>{student.firstName}</option> : '')
               }
-            </select>
+            </select >
             </li>
           )
         }
@@ -67,7 +71,8 @@ const mapStateToProps = (state)=> {
 
 const dispatchToProps = {
   getSchools: getSchoolsThunk,
-  getStudents: getStudentsThunk
+  getStudents: getStudentsThunk,
+  updateStudent: updateStudentThunk
 };
 const School = connect(mapStateToProps, dispatchToProps)(_School)
 
