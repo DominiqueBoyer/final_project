@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { createStudentThunk } from './store';
 
 class _CreateStudent extends React.Component{
-  constructor(props){
+  constructor(){
     super();
     this.state = {
       firstName: '',
@@ -49,12 +49,12 @@ class _CreateStudent extends React.Component{
   }
 }
 
-const mapStateToProps = (state)=> {
-  return {
-    schools: state.schools
-  };
-}
-const CreateStudent = connect(mapStateToProps, (dispatch)=> {
+// const mapStateToProps = (state)=> {
+//   return {
+//     schools: state.schools
+//   };
+// }
+const CreateStudent = connect(null, (dispatch)=> {
   return {
     create: async (student)=> dispatch(createStudentThunk(student))
   };
