@@ -13,25 +13,26 @@ class _School extends React.Component{
     await this.props.getStudents()
   }
   async updateStudent(id, schoolId){
-    await this.props.updateStudent(id, schoolId)
+    await this.props.updateStudent(id, schoolId);
   }
   render(){
     const { schools, students } = this.props;
     const _schools = schools.map(school => {
       const studentsAttending = students.filter(student => student.schoolId === school.id)
       return {...school, studentsAttending}
-    })
-    console.log(_schools);
+    });
+    // console.log(_schools);
+    // console.log(students);
     return (
       <div className='schools'>
         {
-          _schools.map( school => <li key={school.id}>
+          _schools.map( school => <li key={school.id} >
             <Link to='/schools/:id'>{ school.name } </Link>
             <div>School count {school.studentsAttending.length}</div>
-            <select onChange={()=> this.updateStudent(student.id, school.id)}>
+            <select onChange={(ev)=> this.updateStudent( ev.target.value, school.id)}>
               <option>Add Student</option>
               {
-                students.map(student => student.schoolId === null ? <option key={student.id}>{student.firstName}</option> : '')
+                students.map(student => student.schoolId === null ? <option key={ student.id} value={student.id}>{student.firstName}</option> : '')
               }
             </select >
             </li>
@@ -41,6 +42,24 @@ class _School extends React.Component{
     );
   }
 }
+
+
+const mapStateToProps = (state)=> {
+  return {
+    schools: state.schools,
+    students: state.students
+  };
+}
+
+const dispatchToProps = {
+  getSchools: getSchoolsThunk,
+  getStudents: getStudentsThunk,
+  updateStudent: updateStudentThunk
+};
+const School = connect(mapStateToProps, dispatchToProps)(_School)
+
+export default School;
+
 
 // const _School = ({ schools, students })=>{
 //   return (
@@ -61,19 +80,3 @@ class _School extends React.Component{
 //     </div>
 //   );
 // };
-
-const mapStateToProps = (state)=> {
-  return {
-    schools: state.schools,
-    students: state.students
-  };
-}
-
-const dispatchToProps = {
-  getSchools: getSchoolsThunk,
-  getStudents: getStudentsThunk,
-  updateStudent: updateStudentThunk
-};
-const School = connect(mapStateToProps, dispatchToProps)(_School)
-
-export default School;

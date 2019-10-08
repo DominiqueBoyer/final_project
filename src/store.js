@@ -14,7 +14,7 @@ const getSchools = (schools) => ({ type: GET_SCHOOLS, schools})
 const getStudents = (students)=> ({type: GET_STUDENTS, students})
 const createStudent = (student) => ({ type: CREATE_STUDENT, student})
 const deleteStudent = (id) => ({ type: DELETE_STUDENT, id })
-const updateStudent = (id) => ({ type: UPDATE_STUDENT, id })
+const updateStudent = (student) => ({ type: UPDATE_STUDENT, student})
 
 const getSchoolsThunk = () => {
   return async dispatch=> {
@@ -39,6 +39,7 @@ const getStudentsThunk = ()=> {
  }
  const updateStudentThunk = (id, schoolId)=> async dispatch => {
    const updated = (await axios.put(`/api/students/${id}`, { schoolId } )).data
+   console.log('update', updated)
    dispatch(updateStudent(updated));
  }
 
@@ -55,6 +56,7 @@ const reducer = combineReducers({
       state = state.filter( student => student.id !== action.id)
     }
     if(action.type === UPDATE_STUDENT){
+      console.log(action)
       state = state.map(student => student.id === action.student.id ? action.student : student )
     }
     return state;

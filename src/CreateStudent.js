@@ -26,7 +26,6 @@ class _CreateStudent extends React.Component{
   }
   render(){
     const { firstName, lastName, email, GPA, schoolId, error } = this.state;
-    console.log(this.props.schools)
     return (
 
       <form onSubmit={ev => ev.preventDefault()}>
