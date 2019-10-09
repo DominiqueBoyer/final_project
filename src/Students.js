@@ -17,12 +17,12 @@ class _Students extends React.Component{
     await this.props.deleteStudent(id)
   }
   async updateStudent(student){
-    console.log('studnets',student)
+    // console.log('studnets',student)
     await this.props.updateStudent(student)
   }
   render(){
     const {students, schools } = this.props;
-    console.log(this.props.students)
+    // console.log(this.props.students)
     return (
       <div className='students'>
         {
@@ -30,7 +30,6 @@ class _Students extends React.Component{
             <li key={student.id}>
               <div> {student.firstName} {student.lastName} </div>
               <div> GPA {student.GPA} </div>
-              <div> Enrolled at {student.schoolId === null ? 'nowhere' : 'somewhere' }</div>
               <select onChange={(ev)=> this.updateStudent({id: student.id, schoolId: ev.target.value})}>
                 <option selected={student.schoolId===null}>Not Enrolled</option>
                 {

@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { getSchoolsThunk, getStudentsThunk, updateStudentThunk, deleteStudentThunk } from './store';
 
 
-class _School extends React.Component{
+class _MostPopular extends React.Component{
   constructor(props){
     super();
     this.deleteStudent = this.deleteStudent.bind(this);
@@ -29,7 +29,7 @@ class _School extends React.Component{
     return (
       <div>
         {
-          _schools.map(school => school.id=== id ? (<div key={school.id}>
+          _schools.map(school => school.name === 'CAL POLY SLO'? (<div key={school.id}>
               <h2>{school.name} ( { school.studentsAttending.length } Students Enrolled)</h2>
               <select >
                 <option>Add Student</option>
@@ -42,6 +42,7 @@ class _School extends React.Component{
                   students.map(student => student.schoolId === school.id ? (<li key={student.id}>
                     <div> {student.firstName} {student.lastName} </div>
                     <div> GPA {student.GPA} </div>
+                    <div> Enrolled at {student.schoolId === null ? 'nowhere' : 'somewhere' }</div>
                     <select onChange={(ev)=> this.updateStudent({id: student.id, schoolId: ev.target.value})}>
                       <option selected={student.schoolId===null}>Not Enrolled</option>
                       {
@@ -76,6 +77,6 @@ const dispatchToProps = {
 
 };
 
-const School = connect(mapStateToProps, dispatchToProps)(_School)
+const MostPopular = connect(mapStateToProps, dispatchToProps)(_MostPopular)
 
-export default School;
+export default MostPopular;

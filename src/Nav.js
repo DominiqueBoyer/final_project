@@ -10,7 +10,7 @@ const _Nav = ({ students, schools })=>{
       <h1> Acme Schools</h1>
       <NavLink to='/schools'>Schools({schools.length})</NavLink>
       <NavLink to='/students'>Students({students.length})</NavLink>
-      <NavLink to='/schools/:id'>Most Popular ()</NavLink>
+      <NavLink to='/schools/mostpopular'>Most Popular ()</NavLink>
       <NavLink to='/schools/:id'>Top School ()</NavLink>
     </nav>
   );
