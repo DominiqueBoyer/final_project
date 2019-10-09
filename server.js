@@ -31,7 +31,7 @@ app.delete('/api/students/:id', async (req, res, next)=>{
 });
 
 app.put('/api/students/:id', async (req, res, next )=>{
-  const student = await Student.update(req.body.schoolId, {where: {id: req.params.id }, returning: true })
+  const student = await Student.update(req.body.schoolId, {where: {id: req.body.id }, returning: true })
   res.send( student[1] )
 })
 app.get('/api/schools', async(req, res, next ) =>{
@@ -39,6 +39,14 @@ app.get('/api/schools', async(req, res, next ) =>{
     .then( school => res.send(school))
     .catch(next)
 });
+
+app.get('/api/schools/:id', async (req, res, next) =>{
+  try {const school = await School.findByPk(req.params.id);
+  res.send(school);}
+  catch(ex){
+    next(ex)
+  }
+})
 
 app.get('/api/students', async (req, res, next ) =>{
   Student.findAll()

@@ -66,7 +66,7 @@ const syncAndSeed = async ()=> {
     { firstName: 'Grace', lastName:'Jones', email:'grace@gmail.com', GPA: 2.6, schoolId: harvard.id },
     { firstName: 'Tommy', lastName:'Lee', email:'tom@gmail.com', GPA: 3.2, schoolId: null },
     { firstName: 'Dominique', lastName:'Boyer', email:'dominique@gmail.com', GPA: 4.0, schoolId: cpSLO.id },
-    { firstName: 'Zoe', lastName:'the Cat', email:'cat@gmail.com', GPA: 2.0, schoolId: null}
+    { firstName: 'Zoe', lastName:'the Cat', email:'cat@gmail.com', GPA: 2.0, schoolId: cpSLO.id}
   ];
   const [larry, grace, tommy, dominique, zoe ] = await mapOverStudent(students);
 

@@ -7,7 +7,10 @@ const _Home = ({ schools, students})=> {
   const _schools = schools.map(school => {
     const studentsAttending = students.filter(student => student.schoolId === school.id)
     return {...school, studentsAttending}
-  })
+  });
+  console.log(_schools)
+  const mostPop = _schools.map(school => school.studentsAttending);
+  console.log(mostPop)
   return (
     <div>
       <h1>Home page</h1>

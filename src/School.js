@@ -1,47 +1,41 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { getSchoolsThunk, getStudentsThunk, updateStudentThunk } from './store';
-import { Link } from 'react-router-dom';
 
-class _School extends React.Component{
-  constructor(){
-    super();
-    this.updateStudent = this.updateStudent.bind(this);
-  }
-  async componentDidMount(){
-    await this.props.getSchools()
-    await this.props.getStudents()
-  }
-  async updateStudent(id, schoolId){
-    await this.props.updateStudent(id, schoolId);
-  }
-  render(){
-    const { schools, students } = this.props;
-    const _schools = schools.map(school => {
-      const studentsAttending = students.filter(student => student.schoolId === school.id)
-      return {...school, studentsAttending}
-    });
-    // console.log(_schools);
-    // console.log(students);
-    return (
-      <div className='schools'>
-        {
-          _schools.map( school => <li key={school.id} >
-            <Link to='/schools/:id'>{ school.name } </Link>
-            <div>School count {school.studentsAttending.length}</div>
-            <select onChange={(ev)=> this.updateStudent( ev.target.value, school.id)}>
-              <option>Add Student</option>
-              {
-                students.map(student => student.schoolId === null ? <option key={ student.id} value={student.id}>{student.firstName}</option> : '')
-              }
-            </select >
-            </li>
-          )
-        }
-      </div>
-    );
-  }
+
+// class _School extends React.Component{
+//   constructor(id){
+//     super();
+//     // this.updateStudent = this.updateStudent.bind(this);
+//   }
+//   // async componentDidMount(){
+//   //   const id = this.props.match.params.id
+//   //   await this.props.getSchool(id)
+//   // }
+//   // async updateStudent(){
+//   //   await this.props.updateStudent()
+//   // }
+//   render(){
+//     // const {schools} = this.props;
+//     // console.log(schools)
+//     console.log(id)
+//     return (
+//       <hr/>
+//     );
+//   }
+// }
+
+const _School = ({ id, students, schools }) => {
+  console.log(id, schools)
+  const school = schools.filter( school => school.id === id)
+  console.log(school)
+  return(
+    <div>
+      <h1>Hello</h1>
+    </div>
+  );
 }
+
 
 
 const mapStateToProps = (state)=> {
@@ -54,29 +48,9 @@ const mapStateToProps = (state)=> {
 const dispatchToProps = {
   getSchools: getSchoolsThunk,
   getStudents: getStudentsThunk,
-  updateStudent: updateStudentThunk
+
 };
+
 const School = connect(mapStateToProps, dispatchToProps)(_School)
 
 export default School;
-
-
-// const _School = ({ schools, students })=>{
-//   return (
-//     <div className='schools'>
-//       {
-//         schools.map( school => <li key={school.id}>
-//           <div>{ school.name } </div>
-//           <div>School count</div>
-//           <select>
-//             <option>Add Student</option>
-//             {
-//               students.map(student => <option key={student.id}>{student.firstName}</option>)
-//             }
-//           </select>
-//           </li>
-//         )
-//       }
-//     </div>
-//   );
-// };

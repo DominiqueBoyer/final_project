@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { deleteStudentThunk, getStudentsThunk, updateStudentThunk } from './store';
+import { deleteStudentThunk, getStudentsThunk, updateStudentThunk, getSchoolsThunk } from './store';
 
 class _Students extends React.Component{
   constructor(props){
@@ -10,15 +10,18 @@ class _Students extends React.Component{
   }
   async componentDidMount(){
     await this.props.getStudents()
+    await this.props.getSchools()
+
   }
   async deleteStudent(id){
     await this.props.deleteStudent(id)
   }
-  async updateStudent(id, schoolId){
-    await this.props.updateStudent(id, schoolId)
+  async updateStudent(student){
+    console.log('studnets',student)
+    await this.props.updateStudent(student)
   }
   render(){
-    const {students} = this.props;
+    const {students, schools } = this.props;
     console.log(this.props.students)
     return (
       <div className='students'>
@@ -28,13 +31,18 @@ class _Students extends React.Component{
               <div> {student.firstName} {student.lastName} </div>
               <div> GPA {student.GPA} </div>
               <div> Enrolled at {student.schoolId === null ? 'nowhere' : 'somewhere' }</div>
-              <select>
-                <option >Not Enrolled</option>
-                <option>Brown</option>
+              <select onChange={(ev)=> this.updateStudent({id: student.id, schoolId: ev.target.value})}>
+                <option selected={student.schoolId===null}>Not Enrolled</option>
+                {
+                  schools.map(school => (
+                    <option key={school.id} value={school.id} selected={student.schoolId===school.id}>{school.name}</option>
+                  ))
+                }
+                {/* <option>Brown</option>
                 <option>MIT</option>
                 <option>Cal Poly SLO</option>
                 <option>Harvard</option>
-                <option>CCNY</option>
+                <option>CCNY</option> */}
               </select>
               <br/>
               <button onClick={ () => this.deleteStudent(student.id) }>Delete Student</button>
@@ -48,7 +56,8 @@ class _Students extends React.Component{
 
 const mapStateToProps = (state)=>{
   return {
-    students: state.students
+    students: state.students,
+    schools: state.schools
   };
 }
 
@@ -56,7 +65,8 @@ const mapStateToProps = (state)=>{
 const dispatchToProps = {
   getStudents: getStudentsThunk,
   deleteStudent: deleteStudentThunk,
-  updateStudent: updateStudentThunk
+  updateStudent: updateStudentThunk,
+  getSchools: getSchoolsThunk
 }
 //if im not using state but using dispatch must pass in null value to state
 const Students = connect(mapStateToProps, dispatchToProps)(_Students)
