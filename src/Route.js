@@ -12,7 +12,7 @@ class Routes extends React.Component{
         <Route exact path='/' component={Home} />
         <Route exact path='/schools' component={Schools} />
         <Route path='/schools/:id' render={(props) => <School {...props} />} />
-        <Route path='/schools/mostpopular' render={(props) => <MostPopular {...props} />} />
+        <Route path='/schools/:id' render={(props) => <MostPopular {...props} />} />
         <Route path='/students' component={Students} />
       </Switch>
     )}

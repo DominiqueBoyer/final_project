@@ -31,7 +31,7 @@ app.delete('/api/students/:id', async (req, res, next)=>{
 });
 
 app.put('/api/students/:id', async (req, res, next )=>{
-  const student = await Student.update(req.body.schoolId, {where: {id: req.body.id }, returning: true })
+  const student = await Student.update({schoolID: req.body.schoolId}, {where: {id: req.body.id }, returning: true })
   res.send( student[1] )
 })
 app.get('/api/schools', async(req, res, next ) =>{
