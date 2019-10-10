@@ -12,8 +12,8 @@ class _Schools extends React.Component{
     await this.props.getSchools()
     await this.props.getStudents()
   }
-  async updateStudent(id, schoolId){
-    await this.props.updateStudent(id, schoolId);
+  async updateStudent(student){
+    await this.props.updateStudent(student);
   }
   render(){
     const { schools, students } = this.props;
@@ -31,7 +31,7 @@ class _Schools extends React.Component{
             <div>School count {school.studentsAttending.length}</div>
             <select onChange={(ev)=> {
 
-              this.updateStudent( ev.target.value, school.id)}
+              this.updateStudent( {id: ev.target.value, schoolId: school.id})}
             }>
               <option>Add Student</option>
               {

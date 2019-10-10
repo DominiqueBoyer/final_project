@@ -47,7 +47,7 @@ const getStudentsThunk = ()=> {
    dispatch(deleteStudent(id));
  }
  const updateStudentThunk = (student)=> async dispatch => {
-   const updated = await axios.put(`/api/students/${student.id}`, student)
+   const updated = (await axios.put(`/api/students/${student.id}`, student)).data
    console.log('updated', updated)
    dispatch(updateStudent(updated));
  }
